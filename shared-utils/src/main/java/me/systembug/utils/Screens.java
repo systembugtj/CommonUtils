@@ -21,6 +21,9 @@ import android.widget.VideoView;
 import java.util.HashMap;
 import java.util.Random;
 
+import static android.os.Build.VERSION_CODES.HONEYCOMB_MR2;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN;
+
 public class Screens {
 
     public interface MediaDimensions {
@@ -132,12 +135,33 @@ public class Screens {
     // int yDip = DensityUtil.px2dip(UpdateActivity.this, (float)
     // (screenHeight * 1.0));
 
-    public static int getScreenHeight(Activity activity) {
-        return activity.getWindowManager().getDefaultDisplay().getHeight();
+    public static Point getScreenSize(Activity activity) {
+        Point size = new Point();
+        activity.getWindowManager().getDefaultDisplay().getSize(size);
+        return size;
     }
 
+    @Deprecated
+    public static int getScreenHeight(Activity activity) {
+        if (Build.VERSION.SDK_INT <= HONEYCOMB_MR2) {
+            return activity.getWindowManager().getDefaultDisplay().getHeight();
+        } else {
+            Point size = new Point();
+            activity.getWindowManager().getDefaultDisplay().getSize(size);
+            return size.y;
+        }
+    }
+
+    @Deprecated
     public static int getScreenWidth(Activity activity) {
-        return activity.getWindowManager().getDefaultDisplay().getWidth();
+        if (Build.VERSION.SDK_INT <= HONEYCOMB_MR2) {
+            return activity.getWindowManager().getDefaultDisplay().getWidth();
+        } else {
+            Point size = new Point();
+            activity.getWindowManager().getDefaultDisplay().getSize(size);
+            return size.x;
+        }
+
     }
 
     /**
